@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "com.cuotient.beepov.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"mixins": [
+		"ExampleMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
