@@ -1,4 +1,4 @@
-package com.cuotient.beepov.mixin;
+package com.cuotient.pobee.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;

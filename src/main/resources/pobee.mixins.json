@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "com.cuotient.beepov.mixin",
+	"package": "com.cuotient.pobee.mixin",
 	"compatibilityLevel": "JAVA_16",
 	"mixins": [
 		"ExampleMixin"
