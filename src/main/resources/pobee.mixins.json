@@ -3,7 +3,7 @@
 	"package": "com.cuotient.pobee.mixin",
 	"compatibilityLevel": "JAVA_16",
 	"mixins": [
-		"ExampleMixin"
+      "ServerPlayNetworkHandlerAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -10,9 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
-// TODO: Make bind to spawn bee and switch camera
-// TODO: Save whether the bee is spawned or not somewhere, on world load (or a little later if needed) check if the bee is spawned and do stuff
-// 		We don't have to save this in a file, we can just save this in memory. User will have to press the keybind once for every instance.
+// TODO: On world load check if the user has the bee enabled, spawn the bee if so
 // TODO: Handle translation stuff
 public class POBee implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("pobee");
@@ -26,7 +24,7 @@ public class POBee implements ModInitializer {
 		beeBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"key.pobee.todo",
 				InputUtil.Type.KEYSYM,
-				GLFW.GLFW_KEY_F6,
+				GLFW.GLFW_KEY_F4,
 				"category.pobee.todo"
 		));
 
@@ -37,7 +35,7 @@ public class POBee implements ModInitializer {
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (beeBinding.wasPressed()) {
-				BeeManager.INSTANCE.onBeeBindingPress();
+				ClientBeeManager.INSTANCE.onBeeBindingPress();
 			}
 		});
 	}
