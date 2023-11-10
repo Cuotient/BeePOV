@@ -2,11 +2,8 @@ package com.cuotient.pobee;
 
 import com.cuotient.pobee.packet.CameraBeeIdS2CPacket;
 import com.cuotient.pobee.packet.ToggleCameraBeeC2SPacket;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 
 public class ClientBeeManager {
