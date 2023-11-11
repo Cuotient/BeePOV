@@ -1,17 +1,29 @@
 package com.cuotient.pobee;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-// TODO: Make immune to damage
+// TODO: Let /kill kill them
+// TODO: Have the bee leashed to the player, if the lead breaks, tp the bee to the player
+// TODO: Make the lead invisible (maybe)
+// TODO: Kill on world close
+// TODO: Make the bee act like the player is holding a flower (probably will have to make sure the bee doesn't get too close to the player)
+// TODO: Spawn heart particles around the player when in bee cam (or just at the start of bee cam) (bee vision, the bee loves the player)
 public class CameraBeeEntity extends BeeEntity {
+    public static final EntityType<CameraBeeEntity> CAMERA_BEE;
+
     private final PlayerEntity trackingPlayer;
 
-    public CameraBeeEntity(EntityType<? extends BeeEntity> entityType, World world, PlayerEntity trackingPlayer) {
+    // Constructor used by the server
+    public CameraBeeEntity(EntityType<? extends CameraBeeEntity> entityType, World world, PlayerEntity trackingPlayer) {
         super(entityType, world);
 
         this.trackingPlayer = trackingPlayer;
@@ -34,26 +46,45 @@ public class CameraBeeEntity extends BeeEntity {
         }
     }
 
-    @Override
-    public boolean isInvulnerableTo(DamageSource damageSource) {
-        return true;
+    // Constructor used by the client
+    public CameraBeeEntity(EntityType<? extends CameraBeeEntity> entityType, World world) {
+        super(entityType, world);
+
+        if (MinecraftClient.getInstance().player == null) {
+            // This shouldn't ever happen
+            POBee.LOGGER.error("Error instantiating CameraBee on the client, player is null");
+            this.trackingPlayer = null;
+            this.kill(); // This means that the bee is somehow not removed from the world on exit
+            return;
+        }
+
+        this.trackingPlayer = MinecraftClient.getInstance().player;
+
+        // Client network handler handles positioning
     }
 
     @Override
-    public boolean damage(DamageSource source, float amount) {
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+//        return damageSource != DamageSource.OUT_OF_WORLD;
         return false;
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public boolean damage(DamageSource source, float amount) {
+//        if (source == DamageSource.OUT_OF_WORLD) {
+            return super.damage(source, amount);
+//        }
 
-//        POBee.LOGGER.info("GOOD");
-
-        if (this.getPos().x == 0) {
-            POBee.LOGGER.info("NO GOOD");
-        }
+//        return false;
     }
 
     // TODO: Handle tracking stuff
+
+    private static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> type) {
+        return (EntityType)Registry.register(Registry.ENTITY_TYPE, (String)id, type.build(id));
+    }
+
+    static {
+        CAMERA_BEE = register("camera_bee", EntityType.Builder.<CameraBeeEntity>create(CameraBeeEntity::new, SpawnGroup.MISC).setDimensions(0.7F, 0.6F).maxTrackingRange(8));
+    }
 }
