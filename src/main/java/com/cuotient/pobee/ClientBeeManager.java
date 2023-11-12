@@ -5,6 +5,7 @@ import com.cuotient.pobee.packet.ToggleCameraBeeC2SPacket;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -57,5 +58,13 @@ public class ClientBeeManager {
 
     public boolean isEnabled () {
         return this.clientBee != null;
+    }
+
+    public Entity updateTargetedEntityRedirect(MinecraftClient instance) {
+        if (this.isEnabled()) {
+            return instance.player;
+        }
+
+        return instance.cameraEntity;
     }
 }
