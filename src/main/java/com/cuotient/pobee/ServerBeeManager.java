@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 
 // TODO: Handle when player disconnects
 // TODO: Handle when world closes (reset both managers if world closes)
+// TODO: Spawn bee where the f5 camera would normally be
 public class ServerBeeManager {
     public static ServerBeeManager INSTANCE = new ServerBeeManager();
 

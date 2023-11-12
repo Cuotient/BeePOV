@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class ClientBeeManager {
     public static ClientBeeManager INSTANCE = new ClientBeeManager();
@@ -35,5 +36,26 @@ public class ClientBeeManager {
                 this.clientBee = (CameraBeeEntity) cWorld.getEntityById(this.clientBeeID);
             }
         }
+    }
+
+    // TODO: I dont think we need these events anymore, we can go back to the activate and deactivate methods
+    public void onClientRenderPRE (boolean tick) {
+        if (this.clientBee != null) {
+            MinecraftClient.getInstance().setCameraEntity(this.clientBee);
+        }
+    }
+
+    public void onClientRenderPOST (boolean tick) {
+        MinecraftClient.getInstance().setCameraEntity(MinecraftClient.getInstance().player);
+    }
+
+    public void onIsCamera (CallbackInfoReturnable<Boolean> cir) {
+        if (this.clientBee != null) {
+            cir.setReturnValue(true);
+        }
+    }
+
+    public boolean isEnabled () {
+        return this.clientBee != null;
     }
 }

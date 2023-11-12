@@ -65,17 +65,16 @@ public class CameraBeeEntity extends BeeEntity {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-//        return damageSource != DamageSource.OUT_OF_WORLD;
-        return false;
+        return damageSource != DamageSource.OUT_OF_WORLD;
     }
 
     @Override
     public boolean damage(DamageSource source, float amount) {
-//        if (source == DamageSource.OUT_OF_WORLD) {
+        if (source == DamageSource.OUT_OF_WORLD) {
             return super.damage(source, amount);
-//        }
+        }
 
-//        return false;
+        return false;
     }
 
     // TODO: Handle tracking stuff

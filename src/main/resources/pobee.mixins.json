@@ -3,10 +3,15 @@
 	"package": "com.cuotient.pobee.mixin",
 	"compatibilityLevel": "JAVA_16",
 	"mixins": [
+		"DefaultAttributeRegistryAccessor",
 		"ServerPlayNetworkHandlerAccessor",
-		"DefaultAttributeRegistryAccessor"
+		"WorldRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
-	}
+	},
+	"client": [
+		"ClientPlayerEntityMixin",
+		"MinecraftClientMixin"
+	]
 }
