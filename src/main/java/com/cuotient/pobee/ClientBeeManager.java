@@ -4,6 +4,7 @@ import com.cuotient.pobee.packet.CameraBeeIdS2CPacket;
 import com.cuotient.pobee.packet.ToggleCameraBeeC2SPacket;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -24,7 +25,6 @@ public class ClientBeeManager {
 
         if (this.clientBeeID == -1) {
             this.clientBee = null;
-            return;
         }
     }
 

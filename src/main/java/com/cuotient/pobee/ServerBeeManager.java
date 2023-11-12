@@ -38,6 +38,7 @@ public class ServerBeeManager {
         ServerPlayerEntity player = handler.getPlayer();
         World world = player.world;
 
+        System.out.println("Server: " + player);
         this.serverBee = new CameraBeeEntity(CameraBeeEntity.CAMERA_BEE, world, player);
 
         int id = world.spawnEntity(this.serverBee) ? this.serverBee.getEntityId() : -1;
