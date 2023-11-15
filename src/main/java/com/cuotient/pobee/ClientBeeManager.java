@@ -4,9 +4,13 @@ import com.cuotient.pobee.packet.CameraBeeIdS2CPacket;
 import com.cuotient.pobee.packet.ToggleCameraBeeC2SPacket;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.Camera;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class ClientBeeManager {
@@ -72,6 +76,26 @@ public class ClientBeeManager {
         }
 
         return instance.cameraEntity;
+    }
+
+    public void onRenderHand(MatrixStack matrices, Camera camera, float tickDelta, CallbackInfo ci) {
+        if (this.clientBee != null) {
+            ci.cancel();
+        }
+    }
+
+    public PlayerEntity onGetCameraPlayer() {
+        if (this.clientBee != null) {
+            return MinecraftClient.getInstance().player;
+        }
+
+        return null;
+    }
+
+    public void onRenderCrosshair(CallbackInfo ci) {
+        if (this.clientBee != null) {
+            ci.cancel();
+        }
     }
 
     public void forceKillBee () {

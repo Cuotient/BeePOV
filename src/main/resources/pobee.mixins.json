@@ -6,7 +6,8 @@
 		"DefaultAttributeRegistryAccessor",
 		"ServerPlayNetworkHandlerAccessor",
 		"WorldRendererMixin",
-		"GameRendererMixin"
+		"GameRendererMixin",
+		"InGameHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
