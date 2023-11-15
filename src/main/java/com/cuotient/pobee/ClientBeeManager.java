@@ -4,7 +4,6 @@ import com.cuotient.pobee.packet.CameraBeeIdS2CPacket;
 import com.cuotient.pobee.packet.ToggleCameraBeeC2SPacket;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -13,11 +12,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ClientBeeManager {
     public static ClientBeeManager INSTANCE = new ClientBeeManager();
 
+    private boolean beeEnabled = false;
+
     private CameraBeeEntity clientBee;
     private int clientBeeID = -1;
 
     public void onBeeBindingPress () {
-        ClientSidePacketRegistry.INSTANCE.sendToServer(new ToggleCameraBeeC2SPacket(this.clientBee == null));
+        ClientSidePacketRegistry.INSTANCE.sendToServer(new ToggleCameraBeeC2SPacket(!beeEnabled));
+        beeEnabled = !beeEnabled;
     }
 
     public void onSpawnCameraBee (CameraBeeIdS2CPacket packet, ClientPlayPacketListener listener) {
@@ -36,6 +38,10 @@ public class ClientBeeManager {
             if (this.clientBeeID != -1) {
                 this.clientBee = (CameraBeeEntity) cWorld.getEntityById(this.clientBeeID);
             }
+        }
+
+        if (cWorld == null || MinecraftClient.getInstance().player == null) {
+            forceKillBee();
         }
     }
 
@@ -66,5 +72,14 @@ public class ClientBeeManager {
         }
 
         return instance.cameraEntity;
+    }
+
+    public void forceKillBee () {
+        if (this.beeEnabled) {
+            this.clientBee = null;
+            this.clientBeeID = -1;
+            this.beeEnabled = false;
+            ClientSidePacketRegistry.INSTANCE.sendToServer(new ToggleCameraBeeC2SPacket(false));
+        }
     }
 }

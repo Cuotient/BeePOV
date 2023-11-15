@@ -15,8 +15,34 @@ import org.lwjgl.glfw.GLFW;
 
 import static com.cuotient.pobee.CameraBeeEntity.CAMERA_BEE;
 
-// TODO: On world load check if the user has the bee enabled, spawn the bee if so
-// TODO: Handle translation stuff
+/* TODO: Bugs
+ * 	- Fix weird behavior in water
+ *    - See the player holding flower issue
+ *  - *** Display hotbar, armor, hunger and other hotbar stuff ***
+ *  - Player interacts with lead
+ *    - See player holding flower issue
+ *  - *** Make the bee not path find to the floor when following the player (probably just need to make it path to head height instead of feet) ***
+ *    - Do not see flower issue, this should be changed regardless of that design choice
+ *  - Handle when player disconnects
+ *  - Handle when world closes (reset both managers if world closes)
+ *  - Handle changing dimensions
+ */
+
+/* TODO: Features
+ *  - On world load check if the user has the bee enabled, spawn the bee if so
+ *  - Handle translation stuff
+ *  - If the lead breaks, tp the bee to the player
+ *  - *** Kill on world close ***
+ *  - (?) Make the bee act like the player is holding a flower (probably will have to make sure the bee doesn't get too close to the player)
+ *    - Might be better to just have the be behave like a real bee. I like the idea of having to sort of play it where it lies.
+ *  - Bee climbs in boat
+ *    - See player holding flower issue
+ *  - Show hand while holding a map?
+ *    - See player holding flower issue, if they really wanna see a map, they can make an item frame
+ *  - Hardcore bee mode (if the bee dies, you die, immune to explosions?)
+ *  - Print a chat message to guilt the player every time they kill the bee (you monster), keep a counter for how many times they've killed it
+ *  - Spawn bee where the f5 camera would normally be
+ */
 public class POBee implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("pobee");
 

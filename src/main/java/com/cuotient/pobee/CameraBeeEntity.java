@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.control.LookControl;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -15,9 +15,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-// TODO: Have the bee leashed to the player, if the lead breaks, tp the bee to the player
-// TODO: Kill on world close
-// TODO: Make the bee act like the player is holding a flower (probably will have to make sure the bee doesn't get too close to the player)
 public class CameraBeeEntity extends BeeEntity {
     public static final EntityType<CameraBeeEntity> CAMERA_BEE;
 

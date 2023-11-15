@@ -5,18 +5,19 @@ import com.cuotient.pobee.packet.CameraBeeIdS2CPacket;
 import com.cuotient.pobee.packet.ToggleCameraBeeC2SPacket;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.network.listener.ServerPlayPacketListener;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// TODO: Handle when player disconnects
-// TODO: Handle when world closes (reset both managers if world closes)
-// TODO: Spawn bee where the f5 camera would normally be
 public class ServerBeeManager {
     public static ServerBeeManager INSTANCE = new ServerBeeManager();
 
+    // TODO: I just realized this is NO GOOD on multiplayer servers
+    //     Replace this with a map from players to bees. When a given player leaves, kill their bee.
     private CameraBeeEntity serverBee;
 
     public void onToggleCameraBee (ToggleCameraBeeC2SPacket packet, ServerPlayPacketListener listener) {
@@ -53,7 +54,16 @@ public class ServerBeeManager {
     }
 
     private void killBee () {
-        this.serverBee.kill();
+        if (this.serverBee != null) {
+            this.serverBee.kill();
+        }
+
         this.serverBee = null;
+    }
+
+    public void onServerTick(MinecraftServer server, CallbackInfo ci) {
+        if (server.isRunning()) {
+            this.killBee();
+        }
     }
 }
